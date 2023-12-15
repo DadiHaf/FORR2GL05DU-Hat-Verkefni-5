@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RubyController : MonoBehaviour
 {
     public float hradi = 3.0f;
 
-    public int stig = 1;
+    public int maxLif = 6;
     public int lifid { get { return currentLif; } }
     int currentLif;
+
+    public static int count;
+    public TextMeshProUGUI countText;
 
     Rigidbody2D rigidbody2d1;
     float horizontal;
@@ -18,7 +22,7 @@ public class RubyController : MonoBehaviour
     void Start()
     {
         rigidbody2d1 = GetComponent<Rigidbody2D>();
-        currentLif = stig;
+        currentLif = maxLif;
         currentLif = 1;
     }
 
@@ -40,7 +44,15 @@ public class RubyController : MonoBehaviour
 
     public void BreytaLifi(int amount)
     {
-        currentLif = Mathf.Clamp(currentLif + amount, 0, stig);
-        Debug.Log(currentLif + "/" + stig);
+        currentLif = Mathf.Clamp(currentLif + amount, 0, maxLif);
+        Debug.Log(currentLif + "/" + maxLif);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Demantur")
+        {
+            count = count + 1;
+            countText.text = "Stig: " + count.ToString();
+        }
     }
 }
